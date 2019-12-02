@@ -1,17 +1,33 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Alert } from "react-native";
+import * as Font from "expo-font";
+import { AppLoading } from "expo";
+
 import { Navbar } from "./src/components/Navbar";
 import MainScreen from "./src/screens/MainScreen";
 import TodoScreen from "./src/screens/TodoScreen";
 
+async function loadApp() {
+  await Font.loadAsync({
+    "roboto-regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    "roboto-bold": require("./assets/fonts/Roboto-Bold.ttf")
+  });
+}
+
 export default function App() {
-  const [todoId, setTodoId] = useState("1");
-  const [todos, setTodos] = useState([
-    {
-      id: "1",
-      title: "Забрать пілесос"
-    }
-  ]);
+  const [isReady, setIsReady] = useState(false);
+  const [todoId, setTodoId] = useState(null);
+  const [todos, setTodos] = useState([]);
+
+  if (!isReady) {
+    return (
+      <AppLoading
+        startAsync={loadApp}
+        onError={err => console.log(err)}
+        onFinish={() => setIsReady(true)}
+      />
+    );
+  }
 
   const addTodo = title => {
     setTodos(prevTodos => [
@@ -26,7 +42,7 @@ export default function App() {
   const removeTodo = id => {
     const todo = todos.find(todo => id === todo.id);
     Alert.alert(
-      "Удвление єлементов",
+      "Удаление элементов",
       `Вы уверены что хотите удалить "${todo.title}"?`,
       [
         {
@@ -46,6 +62,21 @@ export default function App() {
     );
   };
 
+  const updateTodo = (id, title) => {
+    setTodos(prevTodos =>
+      prevTodos.map(todo => {
+        if (todo.id === id) {
+          return {
+            title,
+            id
+          };
+        } else {
+          return todo;
+        }
+      })
+    );
+  };
+
   const content = () => {
     if (todoId) {
       const todo = todos.find(todo => todoId === todo.id);
@@ -55,6 +86,7 @@ export default function App() {
           goBack={() => setTodoId(null)}
           todo={todo}
           onRemove={removeTodo}
+          onSave={updateTodo}
         />
       );
     }
