@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, Button, Alert } from "react-native";
+import { StyleSheet, View, TextInput, Keyboard, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { THEME } from "../theme";
 
@@ -9,6 +9,7 @@ export const AddTodo = ({ onSubmit }) => {
     if (value.trim()) {
       onSubmit(value);
       setValue("");
+      Keyboard.dismiss();
     } else {
       Alert.alert("The string can't be an empty");
     }

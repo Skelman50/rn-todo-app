@@ -8,6 +8,7 @@ import {
   Alert
 } from "react-native";
 import { THEME } from "../theme";
+import AppButton from "./ui/AppButton";
 
 const EditModal = ({ visible, onCancel, value, onSave }) => {
   const [title, setTitle] = useState(value);
@@ -18,6 +19,11 @@ const EditModal = ({ visible, onCancel, value, onSave }) => {
     } else {
       onSave(title);
     }
+  };
+
+  const cancelHandler = () => {
+    setTitle(value);
+    onCancel();
   };
   return (
     <Modal visible={visible} animationType="slide">
@@ -32,12 +38,10 @@ const EditModal = ({ visible, onCancel, value, onSave }) => {
           onChangeText={setTitle}
         />
         <View style={styles.buttons}>
-          <Button
-            title="Cancel"
-            onPress={onCancel}
-            color={THEME.DANGER_COLOR}
-          />
-          <Button title="Save" onPress={saveHandler} />
+          <AppButton onPress={cancelHandler} color={THEME.DANGER_COLOR}>
+            Cancel
+          </AppButton>
+          <AppButton onPress={saveHandler}>Save</AppButton>
         </View>
       </View>
     </Modal>
