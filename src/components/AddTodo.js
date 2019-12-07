@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, View, TextInput, Keyboard, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { THEME } from "../theme";
@@ -26,7 +26,6 @@ export const AddTodo = ({ onSubmit }) => {
       <AntDesign.Button onPress={pressHandler} name="pluscircleo">
         Add
       </AntDesign.Button>
-      {/* <Button title="Add" onPress={pressHandler} /> */}
     </View>
   );
 };

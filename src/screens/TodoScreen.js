@@ -20,8 +20,8 @@ const TodoScreen = () => {
     setModal(false);
   };
 
-  const saveHandler = title => {
-    updateTodo(todo.id, title);
+  const saveHandler = async title => {
+    await updateTodo(todo.id, title);
     setModal(false);
   };
   return (
